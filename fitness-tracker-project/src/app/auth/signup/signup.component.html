@@ -4,6 +4,7 @@
     (ngSubmit)="onSubmit(f)"
     fxLayout="column"
     fxLayoutAlign="center center"
+    fxLayoutGap="10px"
   >
     <mat-form-field>
       <input
@@ -39,10 +40,35 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Your birth date</mat-label>
-      <input matInput [matDatepicker]="picker" />
+      <input
+        matInput
+        name="birthdate"
+        ngModel
+        [matDatepicker]="picker"
+        [max]="maxDate"
+        required
+      />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      <mat-hint>Only 18 years old users are allowed to register</mat-hint>
     </mat-form-field>
-    <button type="submit" mat-raised-button color="primary">Submit</button>
+    <mat-checkbox
+      color="primary"
+      labelPosition="after"
+      name="agree"
+      ngModel
+      required
+    >
+      Agree to Terms and Conditions
+    </mat-checkbox>
+
+    <button
+      type="submit"
+      [disabled]="f.invalid"
+      mat-raised-button
+      color="primary"
+    >
+      Submit
+    </button>
   </form>
 </section>
