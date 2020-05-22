@@ -1,16 +1,16 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component, OnInit } from "@angular/core";
+
+import { AuthService } from "./auth/auth.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
 })
-export class AppComponent {
-  @ViewChild('sidenav') sidebar: MatSidenav;
-  title = 'fitness-tracker-project';
+export class AppComponent implements OnInit {
+  constructor(private authService: AuthService) {}
 
-  toggleSidebar() {
-    this.sidebar.toggle();
+  ngOnInit() {
+    this.authService.initAuthListener();
   }
 }
