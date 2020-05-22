@@ -11,7 +11,6 @@ export class AppComponent {
   title = 'fitness-tracker-project';
 
   toggleSidebar() {
-    console.log('TOGGLE!!!!!');
     this.sidebar.toggle();
   }
 }
