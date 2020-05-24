@@ -32,7 +32,10 @@ export class PastTrainingsComponent
   ngOnInit() {
     this.exChangedSubscription = this.trainingService.finishedExercisesChanged.subscribe(
       (exercises: Exercise[]) => {
-        this.dataSource.data = exercises;
+        this.dataSource.data = exercises.map((exercise: Exercise) => ({
+          ...exercise,
+          date: new Date((exercise.date as any).seconds * 1000),
+        }));
       }
     );
     this.trainingService.fetchCompletedOrCancelledExercises();

@@ -3,9 +3,9 @@ import { Router } from "@angular/router";
 import { Subject } from "rxjs/Subject";
 import { AngularFireAuth } from "@angular/fire/auth";
 
-import { User } from "./user.model";
 import { AuthData } from "./auth-data.model";
 import { TrainingService } from "../training/training.service";
+import { UIService } from "../shared/ui.service";
 
 @Injectable()
 export class AuthService {
@@ -15,7 +15,8 @@ export class AuthService {
   constructor(
     private router: Router,
     private afAuth: AngularFireAuth,
-    private trainingService: TrainingService
+    private trainingService: TrainingService,
+    private uiService: UIService
   ) {}
 
   initAuthListener() {
@@ -39,17 +40,21 @@ export class AuthService {
       .then((result) => {})
       .catch((error) => {
         console.log(error);
+        this.uiService.showSnackbar(error.message, null, 3000);
       });
   }
 
   login(authData: AuthData) {
+    this.uiService.loadingStateChanged.next(true);
     this.afAuth
       .signInWithEmailAndPassword(authData.email, authData.password)
       .then((result) => {
         console.log(result);
+        this.uiService.loadingStateChanged.next(false);
       })
       .catch((error) => {
-        console.log(error);
+        this.uiService.loadingStateChanged.next(false);
+        this.uiService.showSnackbar(error.message, null, 3000);
       });
   }
 

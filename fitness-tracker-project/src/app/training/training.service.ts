@@ -5,24 +5,28 @@ import { Subscription } from "rxjs";
 import "rxjs/add/operator/map";
 
 import { Exercise } from "./exercise.model";
+import { UIService } from "../shared/ui.service";
 
 @Injectable()
 export class TrainingService {
   exerciseChanged = new Subject<Exercise>();
   exercisesChanged = new Subject<Exercise[]>();
   finishedExercisesChanged = new Subject<Exercise[]>();
-  private availableExercises: Exercise[] = [];
+  private availableExcercises: Exercise[] = [];
   private runningExercise: Exercise;
   private fbSubs: Subscription[] = [];
 
-  constructor(private db: AngularFirestore) {}
+  constructor(private db: AngularFirestore, private uiService: UIService) {}
 
   fetchAvailableExercises() {
+    this.uiService.loadingStateChanged.next(true);
+
     this.fbSubs.push(
       this.db
-        .collection("availableExercises")
+        .collection("availableExcercises")
         .snapshotChanges()
         .map((docArray) => {
+          // throw new Error('FAKED ERROR')
           return docArray.map((doc) => {
             return {
               id: doc.payload.doc.id,
@@ -32,16 +36,29 @@ export class TrainingService {
             };
           });
         })
-        .subscribe((exercises: Exercise[]) => {
-          this.availableExercises = exercises;
-          this.exercisesChanged.next([...this.availableExercises]);
-        })
+        .subscribe(
+          (exercises: Exercise[]) => {
+            this.uiService.loadingStateChanged.next(false);
+            this.availableExcercises = exercises;
+            this.exercisesChanged.next([...this.availableExcercises]);
+          },
+          (error) => {
+            this.uiService.loadingStateChanged.next(false);
+
+            this.uiService.showSnackbar(
+              "Fetching excercises failed, please try again later",
+              null,
+              3000
+            );
+            this.exercisesChanged.next(null);
+          }
+        )
     );
   }
 
   startExercise(selectedId: string) {
-    // this.db.doc('availableExercises/' + selectedId).update({lastSelected: new Date()});
-    this.runningExercise = this.availableExercises.find(
+    // this.db.doc('availableExcercises/' + selectedId).update({lastSelected: new Date()});
+    this.runningExercise = this.availableExcercises.find(
       (ex) => ex.id === selectedId
     );
     this.exerciseChanged.next({ ...this.runningExercise });
