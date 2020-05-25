@@ -27,7 +27,7 @@
       <mat-error>Missing password.</mat-error>
     </mat-form-field>
     <button
-      *ngIf="!isLoading"
+      *ngIf="!(isLoading$ | async)"
       type="submit"
       mat-raised-button
       color="primary"
@@ -37,7 +37,7 @@
     </button>
 
     <mat-progress-spinner
-      *ngIf="isLoading"
+      *ngIf="isLoading$ | async"
       mode="indeterminate"
     ></mat-progress-spinner>
   </form>

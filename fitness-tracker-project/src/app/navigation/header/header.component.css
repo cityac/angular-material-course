@@ -1,12 +1,12 @@
-a {
+/* a {
   text-decoration: none;
-  color: white;
-}
-
+  color: #000;
+} */
+/* 
 a:hover,
 a:active {
   color: lightgray;
-}
+} */
 
 .navigation-items {
   list-style: none;

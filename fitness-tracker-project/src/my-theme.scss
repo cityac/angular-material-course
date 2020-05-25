@@ -1,0 +1,25 @@
+@import "~@angular/material/theming";
+
+@include mat-core();
+
+$porsche-app-primary: mat-palette($mat-gray, A200, A100, A400);
+$porsche-app-accent: mat-palette($mat-gray, A400, A800, A200);
+
+// The warn palette is optional (defaults to red).
+$porsche-app-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$porsche-app-theme: mat-light-theme(
+  $porsche-app-primary,
+  $porsche-app-accent,
+  $porsche-app-warn
+);
+
+@include angular-material-theme($porsche-app-theme);
+
+.mat-tab-header {
+  background-color: mat-color($porsche-app-primary, 50);
+  .mat-tab-label {
+    color: mat-color($porsche-app-primary, 900);
+  }
+}
