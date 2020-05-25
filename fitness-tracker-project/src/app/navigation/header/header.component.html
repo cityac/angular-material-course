@@ -4,25 +4,31 @@
       <mat-icon>menu</mat-icon>
     </button>
   </div>
-  <div>
-    <a routerLink="/" mat-button color="accent">LOGO</a>
+  <div fxHide.gt-xs >
+    <a routerLink="/" mat-button color="accent">
+      <img class="logo-img" src="assets/logo@2x.png"  alt="logo"/>
+    </a>
   </div>
   <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
     <ul fxLayout fxLayoutGap="10px" class="navigation-items">
       <li *ngIf="!(isAuth$ | async)">
-        <a mat-stroked-button routerLink="/signup">Signup</a>
+        <a mat-button routerLink="/signup">Signup</a>
       </li>
       <li *ngIf="!(isAuth$ | async)">
-        <a mat-stroked-button routerLink="/login">Login</a>
+        <a  mat-button  routerLink="/login">Login</a>
       </li>
       <li *ngIf="isAuth$ | async">
-        <a mat-stroked-button routerLink="/training">Training</a>
+        <a mat-button routerLink="/training">Training</a>
       </li>
       <li *ngIf="isAuth$ | async">
-        <a mat-stroked-button style="cursor: pointer;" (click)="onLogout()"
+        <a mat-button style="cursor: pointer;" (click)="onLogout()"
           >Logout</a
         >
       </li>
     </ul>
   </div>
 </mat-toolbar>
+
+<div fxLayout fxLayoutAlign="center" fxHide.xs class="logo">
+  <img class="logo-img" src="assets/logo@2x.png"  alt="logo"/>
+</div>

@@ -1,4 +1,4 @@
-<section>
+<section class="app-login">
   <form
     fxLayout="column"
     fxLayoutAlign="center center"
@@ -30,7 +30,7 @@
       *ngIf="!(isLoading$ | async)"
       type="submit"
       mat-raised-button
-      color="primary"
+      color="accent"
       [disabled]="loginForm.invalid"
     >
       Submit
